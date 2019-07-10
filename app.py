@@ -10,7 +10,7 @@ try:
         'http': http_proxy,
         'https': https_proxy
     }
-except (ImportError, http_proxy, https_proxy):
+except ImportError:
     proxies = {}
 
 app = Flask(__name__)
