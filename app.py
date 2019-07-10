@@ -36,11 +36,14 @@ def index(response=None):
         if post_data['amount'] == '':
             post_data['amount'] = 0
 
+        last_price = float(response['price']) * float(post_data['amount'])
+        bid_price = float(response['bid']) * float(post_data['amount'])
+
         response = (OrderedDict({
             'price': '{:,}'.format(float(response['price'])),
             'bid': '{:,}'.format(float(response['bid'])),
-            'last_price': '{:,}'.format(round(float(response['price']) * float(post_data['amount']), 2)),
-            'last_bid': '{:,}'.format(round(float(response['bid']) * float(post_data['amount']), 2))
+            'last_price': '{:,}'.format(round(last_price - last_price * 0.0025 - 0.25, 2)),
+            'last_bid': '{:,}'.format(round(bid_price - bid_price * 0.0025 - 0.25, 2))
         }))
     return render_template('index.html', coins=coins.keys(), amount=response,
                            input_value=post_data['amount'], coin_type=post_data['coin'])
