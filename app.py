@@ -3,6 +3,16 @@ from collections import OrderedDict
 import requests
 from flask import Flask, render_template, request
 
+try:
+    from config import http_proxy, https_proxy
+
+    proxies = {
+        'http': http_proxy,
+        'https': https_proxy
+    }
+except (ImportError, http_proxy, https_proxy):
+    proxies = {}
+
 app = Flask(__name__)
 
 coins = {
@@ -17,7 +27,11 @@ def index(response=None):
 
     if request.method == 'POST':
         post_data = {k: v for k, v in (val.split('=') for val in (request.get_data().decode('utf8').replace("'", '"').split('&')))}
-        response = requests.get(f'https://api.pro.coinbase.com/products/{coins[post_data["coin"]]}/ticker').json()
+        response = requests.get(
+            url=f'https://api.pro.coinbase.com/products/{coins[post_data["coin"]]}/ticker',
+            headers={'Content-Type': 'application/json'},
+            proxies=proxies
+        ).json()
 
         if post_data['amount'] == '':
             post_data['amount'] = 0

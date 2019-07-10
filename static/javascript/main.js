@@ -22,4 +22,11 @@ $(document).ready(function () {
             deleted_comma = true;
         }
     });
+
+    let input = document.getElementById("coin_input");
+    input.addEventListener("keyup", e => {
+        if (e.keyCode === 13) {
+            document.getElementById("submitEnter").click();
+        }
+    });
 });

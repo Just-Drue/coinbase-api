@@ -29,11 +29,16 @@
             <label>
                 <select name="coin">
                     {% for coin in coins %}
-                        <option value="{{ coin }}">{{ coin }}</option>
+                        <option value="{{ coin }}"
+                                {% if coin_type == coin %}
+                                    selected="selected"
+                                {% endif %}>
+                            {{ coin }}
+                        </option>
                     {% endfor %}
                 </select>
             </label>
-            <button type="submit"><i class="icon ion-android-arrow-forward"></i></button>
+            <button id="submitEnter" type="submit"><i class="icon ion-android-arrow-forward"></i></button>
         </div>
     </form>
     <br/>
